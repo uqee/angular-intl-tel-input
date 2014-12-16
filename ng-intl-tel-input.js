@@ -44,19 +44,23 @@
             // load libphonenumber.js
             $(element).intlTelInput('loadUtils', $scope.utilsScript || libphonenumberURL);
 
-            // if not national mode
-            // just add plus to initial value
-            // without it intlTelInput gets confused
-            if (!$scope.nationalMode) {
-              if (number[0] !== '+') element.val('+' + number);
-            }
+            // handle initial value
+            if (number) {
 
-            // in national mode
-            // you have to remove the country code from your full number
-            else {
-              country = $(element).intlTelInput('getSelectedCountryData');
-              if (country)
-                $(element).intlTelInput('setNumber', number.substring(country.dialCode.length));
+              // if not national mode
+              // just add plus to initial value
+              // without it intlTelInput gets confused
+              if (!$scope.nationalMode) {
+                if (number[0] !== '+') element.val('+' + number);
+              }
+
+              // in national mode
+              // you have to remove the country code from your full number
+              else {
+                country = $(element).intlTelInput('getSelectedCountryData');
+                if (country)
+                  $(element).intlTelInput('setNumber', number.substring(country.dialCode.length));
+              }
             }
 
             // add custom validator to the ngModel controller
