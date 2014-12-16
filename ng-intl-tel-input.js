@@ -1,5 +1,5 @@
-/* global intlTelInputUtils, LPN */
-(function (intlTelInputUtils, libphonenumberURL) {
+/* global intlTelInputUtils */
+(function (intlTelInputUtils) {
   'use strict';
   
   angular
@@ -28,21 +28,27 @@
             // strings
             defaultCountry: '@itiDefaultCountry',
             numberType:     '@itiNumberType',
-            utilsScript:    '@itiUtilsScript',
+            //utilsScript:    '@itiUtilsScript',
 
             // arrays
             onlyCountries:      '=itiOnlyCountries',
             preferredCountries: '=itiPreferredCountries'
           },
           link: function ($scope, element, attrs, ngModel) {
-            var number = element.val(), country;
+            var $element = $(element),
+                number = element.val(),
+                country;
 
             // bind intlTelInput functionality
             // $scope is used instead of options as their superset
-            $(element).intlTelInput($scope);
+            $element.intlTelInput($scope);
 
-            // load libphonenumber.js
-            $(element).intlTelInput('loadUtils', $scope.utilsScript || libphonenumberURL);
+            // mark libphonenumber.js as loaded
+            // we make this to expose intlTelInputUtils factory
+            // utils must be loaded beforehand for that
+            $.fn.intlTelInput.loadedUtilsScript = true;
+            $element.intlTelInput('utilsLoaded');
+            //$element.intlTelInput('loadUtils', $scope.utilsScript);
 
             // handle initial value
             if (number) {
@@ -89,4 +95,4 @@
         };
       }
     ]);
-})(intlTelInputUtils, LPN);
+})(intlTelInputUtils);
