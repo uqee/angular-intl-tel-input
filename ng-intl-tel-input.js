@@ -11,8 +11,8 @@
       }
     ])
 
-    .directive('intlTelInput', ['$timeout',
-      function ($timeout) {
+    .directive('intlTelInput', [
+      function () {
         return {
           restrict: 'A',
           require: '^ngModel',
